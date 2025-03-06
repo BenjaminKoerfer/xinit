@@ -1,0 +1,5 @@
+#!/bin/sh
+
+wallpaper=$(ls ~/Pictures/wallpapers | dmenu -i -l 30 -fn 'FiraCode Nerd Font:size=20')
+
+[ $wallpaper -z ] || feh --bg-fill /home/benjamin/Pictures/wallpapers/$wallpaper

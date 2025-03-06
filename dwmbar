@@ -1,0 +1,31 @@
+#!/bin/bash
+cpuprocess(){
+	process="$(basename $(ps aux --sort=-%cpu | awk 'FNR == 2 {print $11}'))"
+	echo -e "$process"
+}
+mem(){
+	mem="$(free | awk 'FNR == 2{print $7}')"
+	memgb=$(echo "$(($mem / 1000000))")
+	echo -e "$memgb "
+}
+dte(){
+	dte="$(date +"%A, %d %B - %H:%M" )"
+	echo -e "$dte "
+}
+upd(){
+	upd="$(checkupdates | wc -l)"
+	echo -e "$upd "
+}
+pkgs(){
+	pkgs="$(paru -Q | wc -l)"
+	echo -e "$pkgs "
+}
+cputemp(){
+	cputemp="$(cat /sys/class/hwmon/hwmon3/temp1_input)"
+	temp_celsius=$(echo "$(($cputemp / 1000))")
+	echo -e "$temp_celsius "
+}
+while :; do
+	xsetroot -name "$(dte) | $(cputemp) $(cpuprocess) | $(mem) | $(upd) | $(pkgs) |  "
+	sleep 10s
+done
